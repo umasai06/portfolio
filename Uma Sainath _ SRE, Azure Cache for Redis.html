@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Biradavolu Uma Sainath | Site Reliability Engineer, Azure Cache for Redis</title>
+<meta name="description" content="Portfolio of Biradavolu Uma Sainath, a Site Reliability Engineer working on Azure Cache for Redis for a Microsoft client through Wipro.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<noscript><style>.mask>span{transform:none!important}.fade{opacity:1!important}</style></noscript>
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --hh:3.5rem;
+  --bg:#F3F6FA; --bg-alt:#E7EEF6; --surface:#FFFFFF; --ink:#0A2036; --muted:#4A6074; --line:#C9D5E1;
+  --azure:#0B63B8; --azure-soft:rgba(11,99,184,.10); --redis:#C8261B; --ok:#0E8F63; --warn:#A86D06;
+  --term:#08182A; --glow:rgba(11,99,184,.35);
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --body:"Source Sans 3","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#06121D; --bg-alt:#0A1B2A; --surface:#0D2133; --ink:#E6EFF8; --muted:#9BB0C4; --line:#1D3349;
+    --azure:#4EA6F0; --azure-soft:rgba(78,166,240,.14); --redis:#FF5E50; --ok:#3DDC97; --warn:#F2B84B;
+    --term:#030B13; --glow:rgba(78,166,240,.45);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#06121D; --bg-alt:#0A1B2A; --surface:#0D2133; --ink:#E6EFF8; --muted:#9BB0C4; --line:#1D3349;
+  --azure:#4EA6F0; --azure-soft:rgba(78,166,240,.14); --redis:#FF5E50; --ok:#3DDC97; --warn:#F2B84B;
+  --term:#030B13; --glow:rgba(78,166,240,.45);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{
+  scroll-padding-top:calc(var(--hh) + env(safe-area-inset-top,0px));
+  scroll-behavior:smooth;
+  scroll-snap-type:y proximity;
+  -webkit-text-size-adjust:100%;text-size-adjust:100%;
+}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.65 var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,p,dl,dd,ul{margin:0;padding:0}
+ul{list-style:none}
+a{color:var(--azure);text-underline-offset:3px}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--azure);outline-offset:3px;border-radius:4px}
+.wrap{max-width:72rem;margin:0 auto;padding-left:max(1.25rem,env(safe-area-inset-left,0px));padding-right:max(1.25rem,env(safe-area-inset-right,0px))}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- header ---------- */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;height:var(--hh);background:var(--bg);background:rgba(243,246,250,.86);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .top{background:rgba(6,18,29,.86)}}
+:root[data-theme="dark"] .top{background:rgba(6,18,29,.86)}
+.top .wrap{height:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.brand{display:flex;align-items:center;gap:.6rem;font:700 1.05rem var(--display);color:var(--ink);text-decoration:none;white-space:nowrap}
+.brand svg{width:26px;height:26px}
+.nav{display:flex;align-items:center;gap:.25rem;min-width:0}
+.nav-links{display:none;gap:.15rem}
+@media(min-width:56rem){.nav-links{display:flex}}
+.nav-links a{color:var(--muted);text-decoration:none;font-weight:600;font-size:.95rem;padding:.45rem .7rem;border-radius:8px}
+.nav-links a:hover,.nav-links a.on{color:var(--ink);background:var(--azure-soft)}
+.icon-btn{width:44px;height:44px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--ink)}
+.icon-btn:hover{border-color:var(--azure)}
+.icon-btn svg{width:20px;height:20px}
+.progress{position:absolute;left:0;bottom:-1px;height:3px;width:0;background:linear-gradient(90deg,var(--azure),var(--redis))}
+
+/* ---------- slides ---------- */
+.slide{position:relative;min-height:calc(100vh - var(--hh));min-height:calc(100svh - var(--hh));display:flex;align-items:center;padding:4.5rem 0;scroll-snap-align:start;overflow:hidden}
+.slide:nth-of-type(even){background:var(--bg-alt)}
+.slide>.wrap{width:100%;position:relative;z-index:1}
+h2{font:800 clamp(1.9rem,4.6vw,3.1rem)/1.06 var(--display);letter-spacing:-.025em;max-width:22ch}
+.sub{color:var(--muted);max-width:42rem;margin-top:1rem}
+.mask{display:block;overflow:hidden;padding-bottom:.12em;margin-bottom:-.12em}
+.mask>span{display:block;transform:translateY(108%);transition:transform .95s cubic-bezier(.2,.8,.2,1)}
+.slide.in .mask>span{transform:none}
+.fade{opacity:0;transition:opacity .9s ease .3s}
+.slide.in .fade{opacity:1}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .mask>span{transform:none;transition:none}.fade{opacity:1;transition:none}
+}
+
+/* ---------- hero ---------- */
+.hero{padding-top:3rem}
+.dotgrid{position:absolute;left:0;top:0;right:0;bottom:0;background-image:radial-gradient(var(--line) 1.2px,transparent 1.3px);background-size:26px 26px;opacity:.9;-webkit-mask-image:linear-gradient(115deg,#000 0%,transparent 70%);mask-image:linear-gradient(115deg,#000 0%,transparent 70%)}
+.hero-grid{display:grid;gap:2.5rem;grid-template-columns:minmax(0,1fr)}
+@media(min-width:62rem){.hero-grid{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);align-items:center;gap:3.5rem}}
+.who{font-weight:600;color:var(--redis);margin-bottom:.9rem}
+h1{font:800 clamp(2.5rem,7.2vw,4.7rem)/1 var(--display);letter-spacing:-.035em}
+.lead{color:var(--muted);font-size:1.15rem;max-width:34rem;margin:1.4rem 0 1.8rem}
+.btns{display:flex;flex-wrap:wrap;gap:.75rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.6rem 1.25rem;border-radius:10px;font-weight:600;text-decoration:none;border:1.5px solid var(--ink);color:var(--ink);background:transparent;transition:background .2s,color .2s,border-color .2s}
+.btn:hover{border-color:var(--redis)}
+.btn.primary{background:var(--ink);color:var(--bg)}
+.btn.primary:hover{background:var(--redis);border-color:var(--redis);color:#fff}
+.btn.sm{min-height:40px;padding:.4rem .95rem;font-size:.95rem}
+.btn[disabled]{opacity:.55;cursor:default}
+.hint{margin-top:1.1rem;font-size:.95rem;color:var(--muted)}
+
+/* ---------- terminal ---------- */
+.term{background:var(--term);color:#DCE8F4;border-radius:14px;border:1px solid rgba(255,255,255,.1);overflow:hidden;font:400 .9rem/1.6 var(--mono);box-shadow:0 26px 60px -30px rgba(6,24,42,.7)}
+.term-bar{display:flex;align-items:center;gap:.5rem;padding:.65rem .9rem;border-bottom:1px solid rgba(255,255,255,.09);color:#8FA6BD;font-size:.78rem}
+.term-bar i{width:.65rem;height:.65rem;border-radius:50%;display:inline-block}
+.term-bar i:nth-child(1){background:#FF5E50}.term-bar i:nth-child(2){background:#F2B84B}.term-bar i:nth-child(3){background:#3DDC97}
+.term-bar span{margin-left:.5rem}
+#out{height:clamp(15rem,40vh,21rem);overflow-y:auto;padding:.9rem 1rem;-webkit-overflow-scrolling:touch}
+#out .ln{white-space:pre-wrap;word-break:break-word;margin-bottom:.2rem}
+#out .pr{color:#FF5E50}
+#out .cmd{color:#fff}
+#out .str{color:#7CC0F7}.int{color:#F2B84B}.err{color:#FF8A80}.dim{color:#8FA6BD}.okc{color:#3DDC97}
+#out a{color:#7CC0F7}
+.caret{display:inline-block;width:.55em;height:1.05em;background:#FF5E50;vertical-align:text-bottom;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.term form{display:flex;align-items:center;gap:.5rem;border-top:1px solid rgba(255,255,255,.09);padding:.35rem 1rem}
+.term form span{color:#FF5E50;white-space:nowrap}
+.term input{flex:1;min-width:0;background:none;border:0;color:#fff;font:inherit;font-size:16px;padding:.55rem 0;outline:none}
+.term input::placeholder{color:#5F7790}
+.chips{display:flex;flex-wrap:wrap;gap:.45rem;padding:.2rem 1rem 1rem}
+.chips button{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);color:#DCE8F4;font:inherit;font-size:.8rem;padding:.4rem .7rem;border-radius:8px;min-height:36px}
+.chips button:hover{border-color:#FF5E50}
+
+/* ---------- about ---------- */
+.about-grid{display:grid;gap:2.5rem;margin-top:2rem}
+@media(min-width:56rem){.about-grid{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:4rem}}
+.about-grid p+p{margin-top:1rem}
+.about-grid p{max-width:38rem}
+.profile{font:400 .92rem/1.5 var(--mono);border-top:2px solid var(--ink)}
+.profile div{display:grid;grid-template-columns:7.5rem 1fr;gap:1rem;padding:.7rem 0;border-bottom:1px solid var(--line)}
+.profile dt{color:var(--redis);font-weight:500}
+.profile dd{color:var(--ink);overflow-wrap:anywhere}
+.profile-title{font:600 .85rem var(--mono);color:var(--muted);margin-bottom:.6rem}
+
+/* ---------- workflow ---------- */
+.wf{margin-top:2rem;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:1rem 1rem 1.2rem}
+.wf-bar{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin-bottom:.4rem}
+.wf-status{font:500 .85rem var(--mono);color:var(--muted);margin-left:.3rem}
+#wfSvg{display:block;width:100%;height:auto;margin:0 auto;overflow:visible}
+#wfSvg.vert{max-width:420px}
+.edge{fill:none;stroke:var(--line);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:5 8;animation:dash 1.4s linear infinite}
+.edge.on{stroke:var(--azure);stroke-dasharray:none;animation:none}
+@keyframes dash{to{stroke-dashoffset:-26}}
+.packet{fill:var(--azure);filter:drop-shadow(0 0 6px var(--glow))}
+.node{cursor:pointer;outline:none}
+.node .nbox{fill:var(--surface);stroke:var(--line);stroke-width:1.8;transition:stroke .3s,fill .3s}
+.node:hover .nbox{stroke:var(--azure)}
+.node:focus-visible .nbox{stroke:var(--azure);stroke-width:3.5}
+.node .ico{fill:none;stroke:var(--azure);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.node .t{font:700 14px var(--display);fill:var(--ink)}
+.node .s{font:500 11px var(--mono);fill:var(--muted)}
+.node.sel .nbox{fill:var(--azure-soft)}
+.node.is-active .nbox{stroke:var(--azure);stroke-width:3;filter:drop-shadow(0 0 10px var(--glow))}
+.node.is-done .nbox{stroke:var(--ok)}
+.node.is-fail .nbox{stroke:var(--redis);stroke-width:3;animation:failp 1s ease-in-out infinite}
+.node.is-fail .s{fill:var(--redis)}
+.node.is-warn .nbox{stroke:var(--warn);stroke-width:3}
+.node.is-warn .s{fill:var(--warn)}
+.node.is-ok .nbox{stroke:var(--ok);stroke-width:3}
+.node.is-ok .s{fill:var(--ok)}
+@keyframes failp{50%{stroke-width:5}}
+.wf-lower{display:grid;gap:1rem;margin-top:1.2rem}
+@media(min-width:56rem){.wf-lower{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.5rem}}
+.detail{border-left:4px solid var(--azure);padding:.2rem 0 .2rem 1rem;min-height:7rem}
+.detail h3{font:700 1.2rem var(--display);margin-bottom:.35rem}
+.detail p{color:var(--muted)}
+.log{background:var(--term);color:#DCE8F4;border-radius:12px;font:400 .82rem/1.55 var(--mono);padding:.8rem 1rem;height:9.5rem;overflow-y:auto}
+.log div{margin-bottom:.15rem}
+.log .tm{color:#8FA6BD}
+.log .bad{color:#FF8A80}.log .good{color:#3DDC97}.log .mid{color:#F2B84B}
+.note{margin-top:1rem;font-size:.9rem;color:var(--muted)}
+
+/* ---------- work ---------- */
+.work{display:grid;gap:1.5rem;margin-top:2rem}
+@media(min-width:56rem){.work{grid-template-columns:17.5rem minmax(0,1fr);gap:2.5rem}}
+.tabs{display:flex;gap:.5rem;overflow-x:auto;padding-bottom:.4rem;-webkit-overflow-scrolling:touch;scroll-snap-type:none}
+.tab{flex:0 0 auto;text-align:left;background:transparent;border:1px solid var(--line);border-radius:999px;padding:.55rem 1rem;font-weight:600;font-size:.95rem;color:var(--muted);min-height:44px;white-space:nowrap}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+@media(min-width:56rem){
+  .tabs{flex-direction:column;overflow:visible;gap:0;border-top:1px solid var(--line);padding:0}
+  .tab{border:0;border-bottom:1px solid var(--line);border-radius:0;white-space:normal;padding:.9rem 1rem .9rem 1.1rem;position:relative;background:transparent}
+  .tab[aria-selected="true"]{background:var(--surface);color:var(--ink)}
+  .tab[aria-selected="true"]::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--redis)}
+}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:1.4rem;display:grid;gap:1.5rem;transition:opacity .22s ease,transform .22s ease;min-height:20rem}
+.panel.swap{opacity:0;transform:translateX(18px)}
+@media(min-width:60rem){.panel{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);align-items:center;padding:2rem}}
+.art{background:var(--bg);border-radius:12px;padding:.8rem}
+.art svg{display:block;width:100%;height:auto}
+.panel h3{font:700 1.5rem/1.2 var(--display);letter-spacing:-.015em;margin-bottom:.6rem}
+.panel p{color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:.4rem;margin:1rem 0}
+.tags li{font:500 .8rem var(--mono);padding:.2rem .6rem;border-radius:6px;background:var(--azure-soft);color:var(--azure)}
+.panel-foot{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;margin-top:.5rem}
+.panel-foot .pager{margin-left:auto;display:flex;gap:.5rem}
+/* illustration styles */
+.art .s{fill:none;stroke:var(--azure);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.art .f{fill:var(--azure-soft);stroke:var(--azure);stroke-width:2}
+.art .rd{stroke:var(--redis)}.art .gn{stroke:var(--ok)}
+.art .bar{fill:var(--azure);opacity:.85}
+.art .k{fill:var(--ink)}
+.art text{font:600 11px var(--mono);fill:var(--muted)}
+.art .fl{stroke-dasharray:5 7;animation:dash 1.4s linear infinite}
+
+/* ---------- skills ---------- */
+.keys{margin-top:2rem;border-top:2px solid var(--ink)}
+.krow{display:grid;gap:.6rem 2rem;padding:1.1rem 0;border-bottom:1px solid var(--line)}
+@media(min-width:56rem){.krow{grid-template-columns:16rem minmax(0,1fr);align-items:baseline}}
+.kname{font:600 .95rem var(--mono);color:var(--redis)}
+.kname small{display:block;color:var(--muted);font-weight:400;font-size:.8rem;margin-top:.15rem}
+.chiplist{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{display:inline-flex;align-items:center;gap:.4rem;min-height:36px;padding:.3rem .8rem;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);text-decoration:none;font-weight:600;font-size:.95rem;transition:border-color .2s,background .2s}
+a.chip:hover{border-color:var(--azure);background:var(--azure-soft)}
+.chip em{font:500 .72rem var(--mono);font-style:normal;color:var(--bg);background:var(--redis);padding:.05rem .4rem;border-radius:4px}
+
+/* ---------- journey ---------- */
+.tl{position:relative;margin-top:2.2rem;padding-left:2.4rem;max-width:44rem}
+.tl::before{content:"";position:absolute;left:.55rem;top:.4rem;bottom:.4rem;width:2px;background:var(--azure);transform:scaleY(0);transform-origin:top;transition:transform 1.6s cubic-bezier(.4,0,.2,1) .3s}
+.slide.in .tl::before{transform:scaleY(1)}
+.tl li{position:relative;padding-bottom:2rem}
+.tl li:last-child{padding-bottom:0}
+.tl li::before{content:"";position:absolute;left:-2.4rem;top:.35rem;width:1.2rem;height:1.2rem;border-radius:50%;background:var(--bg-alt);border:3px solid var(--azure)}
+.tl li.now::before{border-color:var(--redis);animation:pulse 2s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(200,38,27,.45)}100%{box-shadow:0 0 0 14px rgba(200,38,27,0)}}
+.tl .when{font:500 .88rem var(--mono);color:var(--muted)}
+.tl h3{font:700 1.3rem/1.25 var(--display);margin:.15rem 0}
+.tl p{color:var(--muted)}
+.tl a{font-weight:600}
+@media (prefers-reduced-motion:reduce){.tl::before{transform:none;transition:none}.tl li.now::before{animation:none}.edge{animation:none}.art .fl{animation:none}.caret{animation:none}}
+.hobby{margin-top:2.2rem}
+.hobby h3{font:700 1.1rem var(--display);margin-bottom:.6rem}
+
+/* ---------- contact ---------- */
+.contact h2{max-width:20ch}
+.contact-links{display:grid;gap:.9rem;margin-top:2rem;max-width:34rem}
+.clink{display:grid;grid-template-columns:2.8rem 1fr;gap:1rem;align-items:center;padding:1rem 1.1rem;background:var(--surface);border:1px solid var(--line);border-radius:14px;color:var(--ink);text-decoration:none;transition:border-color .2s,transform .2s}
+.clink:hover{border-color:var(--redis);transform:translateX(4px)}
+.clink svg{width:28px;height:28px;stroke:var(--azure);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.clink b{display:block;font:700 1.05rem var(--display)}
+.clink span{color:var(--muted);font-size:.95rem;overflow-wrap:anywhere}
+footer{padding:1.6rem 0;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem;scroll-snap-align:end}
+
+/* ---------- dots ---------- */
+.dots{position:fixed;right:max(14px,env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);z-index:40;display:none;flex-direction:column;gap:6px}
+@media(min-width:80rem){.dots{display:flex}}
+.dots button{width:22px;height:22px;border:0;background:transparent;display:grid;place-items:center;padding:0}
+.dots button::after{content:"";width:9px;height:9px;border-radius:50%;border:2px solid var(--muted);transition:all .25s}
+.dots button.on::after{background:var(--redis);border-color:var(--redis);transform:scale(1.35)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#intro" aria-label="Back to top">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3l13 6-13 6L3 9z" fill="none" stroke="#C8261B" stroke-width="2" stroke-linejoin="round"/><path d="M3 15l13 6 13-6M3 21l13 6 13-6" fill="none" stroke="#0B63B8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>
+      Uma Sainath
+    </a>
+    <div class="nav">
+      <nav class="nav-links" aria-label="Sections">
+        <a href="#about">About</a><a href="#workflow">Workflow</a><a href="#work">Work</a><a href="#skills">Skills</a><a href="#journey">Journey</a><a href="#contact">Contact</a>
+      </nav>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="progress" id="progress"></div>
+</header>
+
+<nav class="dots" id="dots" aria-label="Slide navigation"></nav>
+
+<main>
+
+<!-- ============ INTRO ============ -->
+<section class="slide hero in" id="intro" data-label="Introduction">
+  <div class="dotgrid" aria-hidden="true"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <p class="who">Site Reliability Engineer, Azure Cache for Redis</p>
+      <h1 class="mask"><span>Biradavolu</span></h1>
+      <h1 class="mask" style="margin-top:.04em"><span>Uma Sainath</span></h1>
+      <p class="lead fade">I keep Azure Cache for Redis healthy for a Microsoft client through Wipro, and I automate the incident work that used to be done by hand.</p>
+      <div class="btns fade">
+        <a class="btn primary" href="#contact">Get in touch</a>
+        <a class="btn" href="https://www.linkedin.com/in/biradavolu-uma-sainath-6457901a4/" target="_blank" rel="noopener">View LinkedIn profile</a>
+      </div>
+      <p class="hint fade">The terminal is live. Type a command or tap one.</p>
+    </div>
+
+    <div class="term fade" role="region" aria-label="Interactive redis-cli terminal">
+      <div class="term-bar"><i></i><i></i><i></i><span>redis-cli on uma-sainath:6379</span></div>
+      <div id="out" aria-live="polite"></div>
+      <form id="form" autocomplete="off">
+        <span aria-hidden="true">&gt;</span>
+        <label class="sr" for="in">Type a redis-cli command</label>
+        <input id="in" type="text" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="booting..." disabled>
+      </form>
+      <div class="chips" id="chips"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="slide" id="about" data-label="About">
+  <div class="wrap">
+    <h2 class="mask"><span>Keeping caches boring and on-call quiet</span></h2>
+    <div class="about-grid fade">
+      <div>
+        <p>I'm a Project Engineer at Wipro, working as an SRE on the Azure Cache for Redis service for a Microsoft client. My job is to keep the service healthy, and to make recovery fast when it isn't.</p>
+        <p>I turn repeated incident handling into automation, and I build the dashboards, troubleshooting guides and internal tools that make on-call work faster and calmer.</p>
+        <p>Away from the terminal, I play cricket and badminton.</p>
+      </div>
+      <div>
+        <p class="profile-title">HGETALL profile</p>
+        <dl class="profile">
+          <div><dt>name</dt><dd>Biradavolu Uma Sainath</dd></div>
+          <div><dt>role</dt><dd>Project Engineer, SRE</dd></div>
+          <div><dt>employer</dt><dd><a href="https://www.wipro.com" target="_blank" rel="noopener">Wipro</a></dd></div>
+          <div><dt>client</dt><dd>Microsoft, through Wipro</dd></div>
+          <div><dt>focus</dt><dd>Azure Cache for Redis</dd></div>
+          <div><dt>location</dt><dd>Hyderabad, India (hybrid)</dd></div>
+          <div><dt>since</dt><dd>Dec 2022</dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WORKFLOW ============ -->
+<section class="slide" id="workflow" data-label="Workflow">
+  <div class="wrap">
+    <h2 class="mask"><span>How a failed cache gets back to healthy</span></h2>
+    <p class="sub fade">A simplified view of the automation I work on. Select any step to read what it does, or run the simulation.</p>
+
+    <div class="wf fade" id="wf">
+      <div class="wf-bar">
+        <button class="btn primary sm" id="runBtn" type="button">Run simulation</button>
+        <button class="btn sm" id="resetBtn" type="button">Reset</button>
+        <span class="wf-status" id="wfStatus" role="status"></span>
+      </div>
+      <svg id="wfSvg" role="group" aria-label="Workflow from a failed Redis cache through monitoring, ICM, automation, Teams and mitigation back to a healthy cache"></svg>
+      <div class="wf-lower">
+        <div class="detail" id="detail" aria-live="polite"></div>
+        <div class="log" id="log" role="log" aria-label="Simulation log"></div>
+      </div>
+    </div>
+    <p class="note fade">Illustrative only. Client names, internal systems and real incident details are left out on purpose.</p>
+  </div>
+</section>
+
+<!-- ============ WORK ============ -->
+<section class="slide" id="work" data-label="Work">
+  <div class="wrap">
+    <h2 class="mask"><span>What I build and run</span></h2>
+    <div class="work fade">
+      <div class="tabs" id="tabs" role="tablist" aria-label="Projects"></div>
+      <div class="panel" id="panel" role="tabpanel" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SKILLS ============ -->
+<section class="slide" id="skills" data-label="Skills">
+  <div class="wrap">
+    <h2 class="mask"><span>The tools I reach for</span></h2>
+    <p class="sub fade">Grouped the way a redis-cli SCAN would list them. Linked skills open the official documentation.</p>
+    <div class="keys fade">
+      <div class="krow">
+        <div class="kname">skills:cloud<small>set, 6 members</small></div>
+        <div class="chiplist">
+          <a class="chip" href="https://azure.microsoft.com" target="_blank" rel="noopener">Azure</a>
+          <span class="chip">Site Reliability Engineering</span>
+          <span class="chip">DevOps</span>
+          <a class="chip" href="https://learn.microsoft.com/azure/devops/pipelines/" target="_blank" rel="noopener">Azure DevOps Pipelines</a>
+          <span class="chip">Incident Management</span>
+          <span class="chip">Performance Monitoring</span>
+        </div>
+      </div>
+      <div class="krow">
+        <div class="kname">skills:code<small>set, 3 members</small></div>
+        <div class="chiplist">
+          <a class="chip" href="https://learn.microsoft.com/dotnet/csharp/" target="_blank" rel="noopener">C#</a>
+          <a class="chip" href="https://learn.microsoft.com/azure/data-explorer/kusto/query/" target="_blank" rel="noopener">Kusto (KQL)</a>
+          <a class="chip" href="https://learn.microsoft.com/sql/" target="_blank" rel="noopener">SQL <em title="L2 understanding">L2</em><span class="sr"> (L2 understanding)</span></a>
+        </div>
+      </div>
+      <div class="krow">
+        <div class="kname">skills:automation<small>set, 3 members</small></div>
+        <div class="chiplist">
+          <span class="chip">Automation</span>
+          <a class="chip" href="https://learn.microsoft.com/power-automate/desktop-flows/introduction" target="_blank" rel="noopener">Power Automate Desktop (PAD)</a>
+          <a class="chip" href="https://www.blueprism.com" target="_blank" rel="noopener">Blue Prism</a>
+        </div>
+      </div>
+      <div class="krow">
+        <div class="kname">skills:collab<small>set, 3 members</small></div>
+        <div class="chiplist">
+          <a class="chip" href="https://learn.microsoft.com/sharepoint/introduction" target="_blank" rel="noopener">SharePoint Online</a>
+          <span class="chip">Lotus Notes</span>
+          <a class="chip" href="https://learn.microsoft.com/microsoftteams/" target="_blank" rel="noopener">Microsoft Teams</a>
+        </div>
+      </div>
+      <div class="krow">
+        <div class="kname">skills:practice<small>set, 2 members</small></div>
+        <div class="chiplist">
+          <span class="chip">Debugging and troubleshooting</span>
+          <span class="chip">Internal tool development</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ JOURNEY ============ -->
+<section class="slide" id="journey" data-label="Journey">
+  <div class="wrap">
+    <h2 class="mask"><span>From electrical engineering to reliability</span></h2>
+    <ul class="tl fade">
+      <li>
+        <p class="when">2016 to 2019</p>
+        <h3>Diploma, Electrical and Electronics Engineering</h3>
+        <p>Government Polytechnic College, Nellore</p>
+      </li>
+      <li>
+        <p class="when">Jul 2019 to Sep 2022</p>
+        <h3>B.Tech, Electrical and Electronics Engineering</h3>
+        <p>Geethanjali Institute of Science and Technology. Grade A. Activities and societies: cricket.</p>
+      </li>
+      <li class="now">
+        <p class="when">Dec 2022 to present, Hyderabad (hybrid)</p>
+        <h3>Project Engineer at <a href="https://www.wipro.com" target="_blank" rel="noopener">Wipro</a></h3>
+        <p>Site Reliability Engineering for Azure Cache for Redis, incident automation, dashboards, internal tools and migrations.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="slide contact" id="contact" data-label="Contact">
+  <div class="wrap">
+    <h2 class="mask"><span>Let's talk reliability and automation</span></h2>
+    <p class="sub fade">Open to conversations about Redis on Azure, incident automation and new roles.</p>
+    <div class="contact-links fade">
+      <a class="clink" href="mailto:umasainath007@gmail.com">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+        <div><b>Email</b><span>umasainath007@gmail.com</span></div>
+      </a>
+      <a class="clink" href="tel:+916309425190">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+        <div><b>Phone</b><span>+91 6309425190</span></div>
+      </a>
+      <a class="clink" href="https://www.linkedin.com/in/biradavolu-uma-sainath-6457901a4/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 11v6M8 7.5v.01M12 17v-6M12 13a3 3 0 0 1 6 0v4"/></svg>
+        <div><b>LinkedIn</b><span>linkedin.com/in/biradavolu-uma-sainath</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">&copy; <span id="yr"></span> Biradavolu Uma Sainath. Views are my own and do not represent Wipro or any client.</div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var d = document, root = d.documentElement, NS = "http://www.w3.org/2000/svg";
+  function $(s, r) { return (r || d).querySelector(s); }
+  function $$(s, r) { return Array.prototype.slice.call((r || d).querySelectorAll(s)); }
+  var reduce = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  function sleep(ms) { return new Promise(function (r) { setTimeout(r, reduce ? 0 : ms); }); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  var LINKEDIN = "https://www.linkedin.com/in/biradavolu-uma-sainath-6457901a4/";
+  var EMAIL = "umasainath007@gmail.com", PHONE = "+91 6309425190";
+
+  $("#yr").textContent = new Date().getFullYear();
+
+  /* ---------- theme ---------- */
+  function isDark() {
+    var t = root.getAttribute("data-theme");
+    if (t) return t === "dark";
+    return !!(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+  }
+  $("#themeBtn").addEventListener("click", function () { root.setAttribute("data-theme", isDark() ? "light" : "dark"); });
+
+  /* ======================================================
+     TERMINAL
+  ====================================================== */
+  var out = $("#out"), inp = $("#in"), chips = $("#chips"), form = $("#form");
+  var PR = "uma-sainath:6379&gt;";
+  var SKILLS = ["azure", "site-reliability-engineering", "devops", "azure-devops-pipelines", "incident-management", "automation", "power-automate-desktop", "blue-prism", "sharepoint-online", "lotus-notes", "kusto-kql", "csharp", "sql-l2", "performance-monitoring", "debugging", "internal-tools"];
+  var PROJECTS = ["incident-response-automation", "cache-recovery-workflow", "dashboards-and-tsgs", "devnxt-internal-tool", "lotus-notes-to-sharepoint-online", "blue-prism-to-pad-poc"];
+  var SLIDES = ["intro", "about", "workflow", "work", "skills", "journey", "contact"];
+  var hist = [], hi = 0, skipTyping = false, booted = false;
+
+  function line(html, cls) {
+    var el = d.createElement("div");
+    el.className = "ln " + (cls || "");
+    el.innerHTML = html;
+    out.appendChild(el);
+    out.scrollTop = out.scrollHeight;
+    return el;
+  }
+  function arr(a) { return a.map(function (v, i) { return (i + 1) + ") <span class=\"str\">\"" + esc(v) + "\"</span>"; }).join("\n"); }
+  function str(v) { return "<span class=\"str\">\"" + esc(v) + "\"</span>"; }
+  function wait(ms) { return new Promise(function (r) { setTimeout(r, (reduce || skipTyping) ? 0 : ms); }); }
+
+  async function typeCmd(text) {
+    var el = line("<span class=\"pr\">" + PR + "</span> <span class=\"tx\"></span><span class=\"caret\"></span>", "cmd");
+    var tx = $(".tx", el);
+    for (var i = 0; i < text.length; i++) { tx.textContent += text.charAt(i); await wait(30 + Math.random() * 35); }
+    var c = $(".caret", el); if (c) c.parentNode.removeChild(c);
+    await wait(180);
+  }
+
+  function respond(c, a) {
+    var key = c + " " + (a[0] || "");
+    switch (c) {
+      case "help":
+        return { h: "Available commands:\n  PING\n  GET name | role | employer | location | contact\n  SMEMBERS skills\n  LRANGE projects 0 -1\n  HGETALL experience\n  INFO\n  GOTO about | workflow | work | skills | journey | contact\n  TTL coffee\n  CLEAR" };
+      case "ping": return { h: "<span class=\"okc\">PONG</span>" };
+      case "get":
+        if (a[0] === "name") return { h: str("Biradavolu Uma Sainath") };
+        if (a[0] === "role") return { h: str("Project Engineer, SRE for Azure Cache for Redis") };
+        if (a[0] === "employer") return { h: str("Wipro, on a Microsoft client engagement") };
+        if (a[0] === "location") return { h: str("Hyderabad, India (hybrid)") };
+        if (a[0] === "contact") return { h: "email    <a href=\"mailto:" + EMAIL + "\">" + EMAIL + "</a>\nphone    <a href=\"tel:+916309425190\">" + PHONE + "</a>\nlinkedin <a href=\"" + LINKEDIN + "\" target=\"_blank\" rel=\"noopener\">linkedin.com/in/biradavolu-uma-sainath</a>" };
+        return { h: "<span class=\"dim\">(nil)</span>" };
+      case "smembers":
+        if (a[0] === "skills") return { h: arr(SKILLS) };
+        return { h: "<span class=\"dim\">(empty array)</span>" };
+      case "lrange":
+        if (a[0] === "projects") return { h: arr(PROJECTS) };
+        return { h: "<span class=\"dim\">(empty array)</span>" };
+      case "hgetall":
+        if (a[0] === "experience") return { h: "1) " + str("company") + "\n2) " + str("Wipro") + "\n3) " + str("title") + "\n4) " + str("Project Engineer") + "\n5) " + str("since") + "\n6) " + str("Dec 2022") + "\n7) " + str("service") + "\n8) " + str("Azure Cache for Redis") };
+        return { h: "<span class=\"dim\">(empty array)</span>" };
+      case "info":
+        return { h: "# Profile\nname:Uma Sainath\nrole:sre\nstatus:online\non_call:true\nautomation:enabled\ncoffee_ttl:1800" };
+      case "ttl":
+        return { h: "<span class=\"int\">(integer) 1800</span>" };
+      case "goto":
+        if (SLIDES.indexOf(a[0]) > -1) { var t = d.getElementById(a[0]); if (t && t.scrollIntoView) t.scrollIntoView({ behavior: reduce ? "auto" : "smooth" }); return { h: "<span class=\"okc\">OK</span>" }; }
+        return { h: "<span class=\"err\">(error) unknown slide. Try: about, workflow, work, skills, journey, contact</span>" };
+      case "flushall": case "flushdb": case "shutdown": case "del": case "debug":
+        return { h: "<span class=\"err\">(error) DENIED. Nice try, but an SRE never runs that in production.</span>" };
+      case "clear": out.innerHTML = ""; return null;
+      default:
+        return { h: "<span class=\"err\">(error) ERR unknown command '" + esc(c) + "'. Type HELP.</span>" };
+    }
+  }
+
+  function exec(raw) {
+    var s = raw.trim(); if (!s) return;
+    line("<span class=\"pr\">" + PR + "</span> " + esc(s), "cmd");
+    var t = s.split(/\s+/), c = t[0].toLowerCase(), a = t.slice(1).map(function (x) { return x.toLowerCase(); });
+    var r = respond(c, a);
+    if (r) line(r.h);
+  }
+
+  var QUICK = ["help", "get role", "smembers skills", "lrange projects 0 -1", "hgetall experience", "get contact", "goto workflow"];
+  QUICK.forEach(function (q) {
+    var b = d.createElement("button"); b.type = "button"; b.textContent = q;
+    b.addEventListener("click", function () { if (!booted) return; exec(q); });
+    chips.appendChild(b);
+  });
+  form.addEventListener("submit", function (e) { e.preventDefault(); if (!booted) return; hist.push(inp.value); hi = hist.length; exec(inp.value); inp.value = ""; });
+  inp.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowUp" && hist.length) { hi = Math.max(0, hi - 1); inp.value = hist[hi] || ""; e.preventDefault(); }
+    else if (e.key === "ArrowDown" && hist.length) { hi = Math.min(hist.length, hi + 1); inp.value = hist[hi] || ""; e.preventDefault(); }
+  });
+  $(".term").addEventListener("pointerdown", function () { skipTyping = true; });
+
+  async function boot() {
+    line("<span class=\"dim\">$ redis-cli -h uma-sainath -p 6379</span>");
+    await wait(450);
+    await typeCmd("PING"); line("<span class=\"okc\">PONG</span>");
+    await typeCmd("GET name"); line(str("Biradavolu Uma Sainath"));
+    await typeCmd("GET role"); line(str("Project Engineer, SRE for Azure Cache for Redis"));
+    await typeCmd("SMEMBERS focus"); line(arr(["reliability", "incident-automation", "observability"]));
+    line("<span class=\"dim\">Type HELP, or tap a command below.</span>");
+    booted = true; inp.disabled = false; inp.placeholder = "type a command, e.g. help";
+  }
+  window.addEventListener("load", function () { setTimeout(boot, 350); });
+
+  /* ======================================================
+     WORKFLOW ORCHESTRATION
+  ====================================================== */
+  var NODES = [
+    { id: "cache", t: "Redis cache", s: "healthy", ico: "M4 6c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3zM4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6",
+      name: "Azure Cache for Redis", text: "The service I look after. In the simulation an instance drops into a failed state, and the rest of the flow brings it back to healthy." },
+    { id: "monitor", t: "Monitoring", s: "health signals", ico: "M3 12h4l2-6 4 12 2-6h6",
+      name: "Monitoring", text: "Performance dashboards and health signals show which instance is unhealthy and when the problem started." },
+    { id: "icm", t: "ICM", s: "incident raised", ico: "M12 3l10 18H2L12 3zM12 10v5M12 18v.5",
+      name: "ICM incident", text: "The incident is raised and tracked in ICM, the incident management system." },
+    { id: "auto", t: "Automation", s: "queue watcher", ico: "M13 2L4 14h7l-1 8 9-12h-7l1-8z",
+      name: "Automation framework", text: "The framework I built watches ICM, so nobody has to check queues by hand. That is what cuts the response time." },
+    { id: "teams", t: "Teams alert", s: "notify team", ico: "M4 5h16v11H9l-5 4V5z",
+      name: "Microsoft Teams alert", text: "The right people hear about the incident in Microsoft Teams as soon as the automation picks it up." },
+    { id: "mitig", t: "Mitigation", s: "auto recovery", ico: "M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5",
+      name: "Mitigation workflow", text: "An automation workflow mitigates the failed cache and returns it to a healthy state." }
+  ];
+  var byId = {}; NODES.forEach(function (n) { byId[n.id] = n; });
+
+  var wf = $("#wf"), svg = $("#wfSvg"), logEl = $("#log"), detailEl = $("#detail"), statusEl = $("#wfStatus");
+  var runBtn = $("#runBtn"), resetBtn = $("#resetBtn");
+  var st = {}, edgesOn = {}, cacheText = "healthy", selected = "cache", lastVert = null, runId = 0, played = false;
+
+  function layout(vert) {
+    var P = {}, W, H, cw, ch;
+    if (!vert) {
+      W = 1010; H = 350; cw = 166; ch = 76;
+      P.cache = { x: 92, y: 160 }; P.monitor = { x: 292, y: 160 }; P.icm = { x: 492, y: 160 }; P.auto = { x: 692, y: 160 };
+      P.teams = { x: 922, y: 66 }; P.mitig = { x: 922, y: 254 };
+      for (var k in P) { P[k].w = cw; P[k].h = ch; }
+    } else {
+      W = 360; H = 560;
+      P.cache = { x: 130, y: 48, w: 200, h: 68 }; P.monitor = { x: 130, y: 148, w: 200, h: 68 }; P.icm = { x: 130, y: 248, w: 200, h: 68 };
+      P.auto = { x: 130, y: 348, w: 200, h: 68 }; P.teams = { x: 85, y: 478, w: 150, h: 68 }; P.mitig = { x: 255, y: 478, w: 150, h: 68 };
+    }
+    function R(n) { return { x: n.x + n.w / 2, y: n.y }; }
+    function Lf(n) { return { x: n.x - n.w / 2, y: n.y }; }
+    function T(n) { return { x: n.x, y: n.y - n.h / 2 }; }
+    function B(n) { return { x: n.x, y: n.y + n.h / 2 }; }
+    var E = [];
+    if (!vert) {
+      E.push({ id: "e1", d: "M" + R(P.cache).x + "," + R(P.cache).y + " H" + Lf(P.monitor).x });
+      E.push({ id: "e2", d: "M" + R(P.monitor).x + "," + R(P.monitor).y + " H" + Lf(P.icm).x });
+      E.push({ id: "e3", d: "M" + R(P.icm).x + "," + R(P.icm).y + " H" + Lf(P.auto).x });
+      var ax = R(P.auto).x, mx = ax + 24;
+      E.push({ id: "e4", d: "M" + ax + "," + R(P.auto).y + " H" + mx + " V" + Lf(P.teams).y + " H" + Lf(P.teams).x });
+      E.push({ id: "e5", d: "M" + ax + "," + R(P.auto).y + " H" + mx + " V" + Lf(P.mitig).y + " H" + Lf(P.mitig).x });
+      E.push({ id: "e6", d: "M" + B(P.mitig).x + "," + B(P.mitig).y + " V" + (H - 24) + " H" + B(P.cache).x + " V" + B(P.cache).y });
+    } else {
+      E.push({ id: "e1", d: "M" + B(P.cache).x + "," + B(P.cache).y + " V" + T(P.monitor).y });
+      E.push({ id: "e2", d: "M" + B(P.monitor).x + "," + B(P.monitor).y + " V" + T(P.icm).y });
+      E.push({ id: "e3", d: "M" + B(P.icm).x + "," + B(P.icm).y + " V" + T(P.auto).y });
+      var by = B(P.auto).y + 30;
+      E.push({ id: "e4", d: "M" + B(P.auto).x + "," + B(P.auto).y + " V" + by + " H" + T(P.teams).x + " V" + T(P.teams).y });
+      E.push({ id: "e5", d: "M" + B(P.auto).x + "," + B(P.auto).y + " V" + by + " H" + T(P.mitig).x + " V" + T(P.mitig).y });
+      E.push({ id: "e6", d: "M" + B(P.mitig).x + "," + B(P.mitig).y + " V" + (H - 18) + " H" + (W - 14) + " V" + P.cache.y + " H" + R(P.cache).x });
+    }
+    return { W: W, H: H, P: P, E: E };
+  }
+
+  function render() {
+    var vert = wf.clientWidth < 720; lastVert = vert;
+    var L = layout(vert), h = "";
+    L.E.forEach(function (e) { h += "<path class=\"edge" + (edgesOn[e.id] ? " on" : "") + "\" data-edge=\"" + e.id + "\" d=\"" + e.d + "\"/>"; });
+    NODES.forEach(function (n) {
+      var p = L.P[n.id], tx = p.x - p.w / 2, ty = p.y - p.h / 2, ix = 14, textX = 46;
+      h += "<g class=\"node\" data-id=\"" + n.id + "\" tabindex=\"0\" role=\"button\" aria-label=\"" + esc(n.name) + "\" transform=\"translate(" + tx + "," + ty + ")\">" +
+        "<rect class=\"nbox\" width=\"" + p.w + "\" height=\"" + p.h + "\" rx=\"14\"/>" +
+        "<g transform=\"translate(" + ix + "," + (p.h / 2 - 12) + ")\"><path class=\"ico\" d=\"" + n.ico + "\"/></g>" +
+        "<text class=\"t\" x=\"" + textX + "\" y=\"" + (p.h / 2 - 3) + "\">" + esc(n.t) + "</text>" +
+        "<text class=\"s\" x=\"" + textX + "\" y=\"" + (p.h / 2 + 15) + "\">" + esc(n.id === "cache" ? cacheText : n.s) + "</text></g>";
+    });
+    svg.setAttribute("viewBox", "0 0 " + L.W + " " + L.H);
+    svg.setAttribute("class", vert ? "vert" : "");
+    svg.innerHTML = h;
+    $$(".node", svg).forEach(function (g) {
+      var id = g.getAttribute("data-id");
+      g.setAttribute("class", "node" + (st[id] ? " " + st[id] : "") + (id === selected ? " sel" : ""));
+      g.addEventListener("click", function () { select(id); });
+      g.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(id); } });
+    });
+  }
+
+  function setState(id, cls, text) {
+    st[id] = cls || "";
+    if (id === "cache" && text) cacheText = text;
+    var g = $(".node[data-id=\"" + id + "\"]", svg);
+    if (g) {
+      g.setAttribute("class", "node" + (cls ? " " + cls : "") + (id === selected ? " sel" : ""));
+      if (id === "cache") { var tx = $(".s", g); if (tx) tx.textContent = cacheText; }
+    }
+  }
+  function select(id) {
+    selected = id;
+    $$(".node", svg).forEach(function (g) {
+      var on = g.getAttribute("data-id") === id, c = g.getAttribute("class").replace(/\s?sel/g, "");
+      g.setAttribute("class", on ? c + " sel" : c);
+    });
+    var n = byId[id];
+    detailEl.innerHTML = "<h3>" + esc(n.name) + "</h3><p>" + esc(n.text) + "</p>";
+  }
+
+  function log(msg, cls, t0) {
+    var s = ((performance.now() - t0) / 1000).toFixed(1), el = d.createElement("div");
+    el.innerHTML = "<span class=\"tm\">[" + (s.length < 4 ? " " + s : s) + "s]</span> <span class=\"" + (cls || "") + "\">" + esc(msg) + "</span>";
+    logEl.appendChild(el); logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  function send(id) {
+    return new Promise(function (res) {
+      var p = svg.querySelector("[data-edge=\"" + id + "\"]");
+      if (!p) { res(); return; }
+      edgesOn[id] = true; p.setAttribute("class", "edge on");
+      if (reduce || !p.getTotalLength) { res(); return; }
+      var len = p.getTotalLength(), c = d.createElementNS(NS, "circle");
+      c.setAttribute("r", "7"); c.setAttribute("class", "packet"); svg.appendChild(c);
+      var t0 = performance.now(), dur = 800;
+      (function tick(now) {
+        var k = Math.min(1, (now - t0) / dur), pt = p.getPointAtLength(len * k);
+        c.setAttribute("cx", pt.x); c.setAttribute("cy", pt.y);
+        if (k < 1) { requestAnimationFrame(tick); }
+        else { if (c.parentNode) c.parentNode.removeChild(c); res(); }
+      })(t0);
+    });
+  }
+
+  function resetFlow(clearLog) {
+    st = {}; edgesOn = {}; cacheText = "healthy"; st.cache = "is-ok";
+    render();
+    if (clearLog) logEl.innerHTML = "";
+    statusEl.textContent = "";
+  }
+
+  async function runSim() {
+    var my = ++runId; played = true;
+    function alive() { return my === runId; }
+    resetFlow(true);
+    runBtn.disabled = true; statusEl.textContent = "Running";
+    var t0 = performance.now();
+    select("cache");
+
+    setState("cache", "is-fail", "FAILED");
+    log("cache instance entered FAILED state", "bad", t0);
+    await sleep(1000); if (!alive()) return;
+
+    setState("monitor", "is-active"); await send("e1"); if (!alive()) return;
+    log("monitoring: health signal breached", "mid", t0);
+    await sleep(700); if (!alive()) return;
+    setState("monitor", "is-done");
+
+    setState("icm", "is-active"); await send("e2"); if (!alive()) return;
+    log("ICM: incident raised", "mid", t0);
+    await sleep(700); if (!alive()) return;
+    setState("icm", "is-done");
+
+    setState("auto", "is-active"); await send("e3"); if (!alive()) return;
+    log("automation: incident picked up, no manual queue check", "good", t0);
+    await sleep(800); if (!alive()) return;
+    setState("auto", "is-done");
+
+    setState("teams", "is-active"); setState("mitig", "is-active");
+    await Promise.all([send("e4"), send("e5")]); if (!alive()) return;
+    log("teams: alert posted to the channel", "good", t0);
+    log("mitigation: recovery workflow started", "good", t0);
+    await sleep(900); if (!alive()) return;
+    setState("teams", "is-done");
+
+    setState("cache", "is-warn", "RECOVERING");
+    log("mitigation: recovering cache", "mid", t0);
+    await send("e6"); if (!alive()) return;
+    await sleep(500); if (!alive()) return;
+    setState("mitig", "is-done");
+    setState("cache", "is-ok", "HEALTHY");
+    log("cache is HEALTHY. Workflow complete.", "good", t0);
+    statusEl.textContent = "Complete";
+    runBtn.disabled = false; runBtn.textContent = "Replay simulation";
+  }
+
+  runBtn.addEventListener("click", runSim);
+  resetBtn.addEventListener("click", function () { runId++; resetFlow(true); runBtn.disabled = false; runBtn.textContent = "Run simulation"; select("cache"); });
+
+  resetFlow(true); select("cache");
+  var rz;
+  window.addEventListener("resize", function () {
+    clearTimeout(rz);
+    rz = setTimeout(function () { if ((wf.clientWidth < 720) !== lastVert) render(); }, 150);
+  });
+
+  /* ======================================================
+     WORK TABS
+  ====================================================== */
+  var ART = {
+    incident: "<svg viewBox=\"0 0 320 160\" role=\"img\" aria-label=\"ICM alert flowing to a Teams message\"><rect class=\"f\" x=\"22\" y=\"46\" width=\"92\" height=\"68\" rx=\"14\"/><path class=\"s rd\" d=\"M68 62l18 32H50z\"/><path class=\"s rd\" d=\"M68 73v10M68 88v.5\"/><path class=\"s fl\" d=\"M126 80h58\"/><path class=\"s\" d=\"M176 70l10 10-10 10\"/><rect class=\"f\" x=\"198\" y=\"40\" width=\"104\" height=\"62\" rx=\"14\"/><path class=\"f\" d=\"M222 102l-8 18 26-18z\"/><circle class=\"k\" cx=\"232\" cy=\"71\" r=\"4\"/><circle class=\"k\" cx=\"250\" cy=\"71\" r=\"4\"/><circle class=\"k\" cx=\"268\" cy=\"71\" r=\"4\"/><text x=\"46\" y=\"138\">ICM</text><text x=\"228\" y=\"142\">Teams</text></svg>",
+    recovery: "<svg viewBox=\"0 0 320 160\" role=\"img\" aria-label=\"A failed cache returning to healthy\"><circle class=\"s rd\" cx=\"40\" cy=\"80\" r=\"20\"/><path class=\"s rd\" d=\"M32 72l16 16M48 72L32 88\"/><path class=\"s fl\" d=\"M66 80h40\"/><ellipse class=\"f\" cx=\"160\" cy=\"54\" rx=\"46\" ry=\"14\"/><path class=\"f\" d=\"M114 54v52c0 8 20 14 46 14s46-6 46-14V54\"/><path class=\"s\" d=\"M114 80c0 8 20 14 46 14s46-6 46-14\"/><path class=\"s fl\" d=\"M214 80h40\"/><circle class=\"s gn\" cx=\"282\" cy=\"80\" r=\"20\"/><path class=\"s gn\" d=\"M272 80l8 8 14-16\"/><text x=\"24\" y=\"128\">failed</text><text x=\"256\" y=\"128\">healthy</text></svg>",
+    dash: "<svg viewBox=\"0 0 320 160\" role=\"img\" aria-label=\"A performance dashboard with a line chart and bars\"><rect class=\"f\" x=\"20\" y=\"16\" width=\"280\" height=\"128\" rx=\"14\"/><rect class=\"bar\" x=\"46\" y=\"96\" width=\"22\" height=\"30\" rx=\"3\"/><rect class=\"bar\" x=\"78\" y=\"80\" width=\"22\" height=\"46\" rx=\"3\"/><rect class=\"bar\" x=\"110\" y=\"88\" width=\"22\" height=\"38\" rx=\"3\"/><rect class=\"bar\" x=\"142\" y=\"64\" width=\"22\" height=\"62\" rx=\"3\"/><polyline class=\"s rd\" points=\"46,70 90,56 134,62 178,40 222,46 262,30\"/><path class=\"s\" d=\"M196 100h80M196 114h56\"/></svg>",
+    devnxt: "<svg viewBox=\"0 0 320 160\" role=\"img\" aria-label=\"An internal tool window\"><rect class=\"f\" x=\"24\" y=\"16\" width=\"272\" height=\"128\" rx=\"14\"/><path class=\"s\" d=\"M24 44h272\"/><circle class=\"k\" cx=\"42\" cy=\"30\" r=\"4\"/><circle class=\"k\" cx=\"58\" cy=\"30\" r=\"4\"/><circle class=\"k\" cx=\"74\" cy=\"30\" r=\"4\"/><path class=\"s\" d=\"M92 58v74\"/><path class=\"s\" d=\"M40 64h38M40 82h30M40 100h36\"/><rect class=\"bar\" x=\"108\" y=\"60\" width=\"72\" height=\"30\" rx=\"6\"/><rect class=\"bar\" x=\"192\" y=\"60\" width=\"88\" height=\"30\" rx=\"6\"/><path class=\"s\" d=\"M108 108h172M108 122h120\"/></svg>",
+    migrate: "<svg viewBox=\"0 0 320 160\" role=\"img\" aria-label=\"Content moving from Lotus Notes to SharePoint Online\"><rect class=\"f\" x=\"18\" y=\"46\" width=\"86\" height=\"68\" rx=\"12\"/><path class=\"s\" d=\"M34 68h54M34 82h40M34 96h48\"/><path class=\"s fl\" d=\"M116 80h62\"/><path class=\"s\" d=\"M170 70l10 10-10 10\"/><path class=\"f\" d=\"M214 116a22 22 0 0 1-2-43 32 32 0 0 1 60-6 22 22 0 0 1 4 49z\"/><text x=\"24\" y=\"134\">Lotus Notes</text><text x=\"200\" y=\"138\">SharePoint Online</text></svg>",
+    poc: "<svg viewBox=\"0 0 320 160\" role=\"img\" aria-label=\"Blue Prism automations converted to Power Automate Desktop\"><rect class=\"f\" x=\"20\" y=\"44\" width=\"96\" height=\"72\" rx=\"14\"/><path class=\"s\" d=\"M38 66h60M38 80h44M38 94h52\"/><path class=\"s fl\" d=\"M128 80h58\"/><path class=\"s\" d=\"M178 70l10 10-10 10\"/><rect class=\"f\" x=\"200\" y=\"44\" width=\"100\" height=\"72\" rx=\"14\"/><circle class=\"s\" cx=\"250\" cy=\"80\" r=\"16\"/><path class=\"s\" d=\"M250 56v8M250 96v8M226 80h8M266 80h8\"/><text x=\"34\" y=\"138\">Blue Prism</text><text x=\"212\" y=\"138\">Power Automate</text></svg>"
+  };
+  var WORK = [
+    { tab: "Incident response automation", title: "Incident response automation", art: "incident",
+      text: "I built an automation framework that connects ICM monitoring with Microsoft Teams. Nobody has to check queues by hand any more, and responders hear about incidents sooner, which cuts response latency.",
+      tags: ["ICM", "Microsoft Teams", "Automation"], link: { href: "https://learn.microsoft.com/microsoftteams/", label: "About Microsoft Teams" } },
+    { tab: "Cache recovery workflow", title: "Cache recovery workflow", art: "recovery",
+      text: "I implemented an automation workflow that mitigates a cache in a failed state and brings it back to healthy.",
+      tags: ["Azure Cache for Redis", "SRE", "Automation"], link: { href: "https://learn.microsoft.com/azure/azure-cache-for-redis/cache-overview", label: "About Azure Cache for Redis" } },
+    { tab: "Dashboards and TSGs", title: "Dashboards, TSGs and work items", art: "dash",
+      text: "I create and maintain performance dashboards, troubleshooting guides (TSGs) and work items, so on-call engineers can spot problems early and fix them faster.",
+      tags: ["Performance monitoring", "TSGs", "Kusto (KQL)"], link: { href: "https://learn.microsoft.com/azure/data-explorer/kusto/query/", label: "About Kusto Query Language" } },
+    { tab: "devNXT internal tool", title: "devNXT internal tool", art: "devnxt",
+      text: "I enhance devNXT, an internal tool, for clients including Olympus and AusNet. It is where my internal tool development and debugging skills get used day to day.",
+      tags: ["Internal tool development", "Debugging", "C#"], link: null },
+    { tab: "Lotus Notes to SharePoint Online", title: "Lotus Notes to SharePoint Online migrations", art: "migrate",
+      text: "I support migrations from Lotus Notes to SharePoint Online, helping teams move off a legacy platform and onto Microsoft 365.",
+      tags: ["SharePoint Online", "Lotus Notes", "Migration"], link: { href: "https://learn.microsoft.com/sharepoint/introduction", label: "About SharePoint Online" } },
+    { tab: "Blue Prism to PAD proof of concept", title: "Blue Prism to Power Automate Desktop", art: "poc",
+      text: "I lead a proof of concept at UHG that converts Blue Prism automations to Power Automate Desktop (PAD).",
+      tags: ["Blue Prism", "Power Automate Desktop", "RPA"], link: { href: "https://learn.microsoft.com/power-automate/desktop-flows/introduction", label: "About Power Automate Desktop" } }
+  ];
+  var tabsEl = $("#tabs"), panel = $("#panel"), cur = 0, tabBtns = [];
+
+  WORK.forEach(function (w, i) {
+    var b = d.createElement("button");
+    b.type = "button"; b.className = "tab"; b.id = "tab" + i; b.setAttribute("role", "tab"); b.setAttribute("aria-controls", "panel");
+    b.textContent = w.tab;
+    b.addEventListener("click", function () { show(i); });
+    b.addEventListener("keydown", function (e) {
+      var k = e.key, n = null;
+      if (k === "ArrowRight" || k === "ArrowDown") n = (cur + 1) % WORK.length;
+      else if (k === "ArrowLeft" || k === "ArrowUp") n = (cur + WORK.length - 1) % WORK.length;
+      if (n !== null) { e.preventDefault(); show(n); tabBtns[n].focus(); }
+    });
+    tabsEl.appendChild(b); tabBtns.push(b);
+  });
+
+  function fill(i) {
+    var w = WORK[i];
+    panel.setAttribute("aria-labelledby", "tab" + i);
+    panel.innerHTML =
+      "<div class=\"art\">" + ART[w.art] + "</div>" +
+      "<div><h3>" + esc(w.title) + "</h3><p>" + esc(w.text) + "</p>" +
+      "<ul class=\"tags\">" + w.tags.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ul>" +
+      "<div class=\"panel-foot\">" +
+      (w.link ? "<a class=\"btn sm\" href=\"" + w.link.href + "\" target=\"_blank\" rel=\"noopener\">" + esc(w.link.label) + "</a>" : "") +
+      "<div class=\"pager\"><button class=\"btn sm\" type=\"button\" data-dir=\"-1\" aria-label=\"Previous project\">Previous</button><button class=\"btn sm\" type=\"button\" data-dir=\"1\" aria-label=\"Next project\">Next</button></div></div></div>";
+    $$("[data-dir]", panel).forEach(function (b) {
+      b.addEventListener("click", function () { show((cur + parseInt(b.getAttribute("data-dir"), 10) + WORK.length) % WORK.length); });
+    });
+  }
+  function show(i) {
+    cur = i;
+    tabBtns.forEach(function (b, j) { b.setAttribute("aria-selected", j === i ? "true" : "false"); b.tabIndex = j === i ? 0 : -1; });
+    if (tabsEl.scrollTo && tabBtns[i].offsetLeft !== undefined && tabsEl.scrollWidth > tabsEl.clientWidth) {
+      tabsEl.scrollTo({ left: Math.max(0, tabBtns[i].offsetLeft - 16), behavior: reduce ? "auto" : "smooth" });
+    }
+    if (reduce) { fill(i); return; }
+    panel.classList.add("swap");
+    setTimeout(function () { fill(i); panel.classList.remove("swap"); }, 200);
+  }
+  tabBtns.forEach(function (b, j) { b.setAttribute("aria-selected", j === 0 ? "true" : "false"); b.tabIndex = j === 0 ? 0 : -1; });
+  fill(0);
+
+  /* ======================================================
+     SLIDES: reveal, dots, progress, active nav
+  ====================================================== */
+  var slides = $$(".slide"), dots = $("#dots"), navLinks = $$(".nav-links a"), dotBtns = [];
+  slides.forEach(function (s, i) {
+    var b = d.createElement("button"); b.type = "button"; b.setAttribute("aria-label", "Go to " + s.getAttribute("data-label"));
+    b.addEventListener("click", function () { s.scrollIntoView({ behavior: reduce ? "auto" : "smooth" }); });
+    dots.appendChild(b); dotBtns.push(b);
+  });
+  function setActive(i) {
+    dotBtns.forEach(function (b, j) { b.className = j === i ? "on" : ""; });
+    navLinks.forEach(function (a) { a.className = a.getAttribute("href") === "#" + slides[i].id ? "on" : ""; });
+  }
+  if ("IntersectionObserver" in window) {
+    var reveal = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); reveal.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    slides.forEach(function (s) { reveal.observe(s); });
+    var act = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) setActive(slides.indexOf(e.target)); });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    slides.forEach(function (s) { act.observe(s); });
+    var auto = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting && !played) { auto.disconnect(); setTimeout(function () { if (!played) runSim(); }, 900); } });
+    }, { threshold: 0.25 });
+    auto.observe(wf);
+  } else {
+    slides.forEach(function (s) { s.classList.add("in"); });
+  }
+  setActive(0);
+
+  var prog = $("#progress"), tick = false;
+  function onScroll() {
+    if (tick) return; tick = true;
+    requestAnimationFrame(function () {
+      var h = root.scrollHeight - window.innerHeight;
+      prog.style.width = (h > 0 ? Math.min(100, (window.pageYOffset / h) * 100) : 0) + "%";
+      tick = false;
+    });
+  }
+  window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
+})();
+</script>
+</body>
+</html>
